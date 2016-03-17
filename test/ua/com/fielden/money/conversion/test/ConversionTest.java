@@ -26,7 +26,7 @@ public class ConversionTest {
 
     @Test
     public void negative_number_should_not_be_permited() throws IllegalAccessException {
-        final Money money = new Money(new BigDecimal("-19"));
+        final Money money = new Money(new BigDecimal("-19.9"));
         try {
             new Converter().convertNumbersToWriting(money);
             fail();

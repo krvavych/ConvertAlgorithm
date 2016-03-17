@@ -3,31 +3,45 @@ package ua.com.fielden.money.conversion;
 import java.math.BigDecimal;
 
 public class Money {
-    private final BigDecimal digitalRepresentation;
+    private final String wholePart;
+    private final String fractionalPart;
 
-    public Money(final BigDecimal numeric) {
-        this.digitalRepresentation = numeric;
-    }
+    public Money(final BigDecimal numeric) throws IllegalAccessException {
+        final String stringRepresentation = numeric.toString();
 
-    public String getWholePart() {
-        return digitalRepresentation.toBigInteger().toString();
-    }
+        if(stringRepresentation.contains("-")){
+            throw new IllegalAccessException("Money should be positive!");
+        }
 
-    public String getFractionalPart() {
-        final String fractionalPart = digitalRepresentation.subtract(new BigDecimal(digitalRepresentation.toBigInteger())).toString();
-        if (fractionalPart.length() == 1) {
-            return "";
-        } else if (fractionalPart.length() == 3) {
-            return (fractionalPart + "0").substring(2, 4);
-        } else {
-            return fractionalPart.substring(2, 4);
+        if (stringRepresentation.contains(".")){
+            final String[] parts = stringRepresentation.split("\\.");
+            this.wholePart = parts[0];
+            this.fractionalPart = parts[1];
+            if(fractionalPart.length()>2){
+                throw new IllegalAccessException("Too long fractional part!");
+            }
+        }else {
+            this.wholePart = stringRepresentation;
+            this.fractionalPart = "";
         }
     }
 
-    public static void main(final String[] args) {
-        final Money newMoney = new Money(new BigDecimal("44"));
+    public String getWholePart() {
+        return this.wholePart;
+    }
+
+    public String getFractionalPart() {
+        if (this.fractionalPart.length() == 1) {
+            return this.fractionalPart + "0";
+        }
+        return this.fractionalPart;
+    }
+
+    public static void main(final String[] args) throws IllegalAccessException {
+        final Money newMoney = new Money(new BigDecimal("44.15"));
         System.out.println(newMoney.getWholePart());
         System.out.println(newMoney.getFractionalPart());
+
     }
 
 }
