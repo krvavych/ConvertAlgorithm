@@ -15,10 +15,7 @@ public class Converter {
         final String wholePart = digitalRepresentation.getWholePart();
         final String fractionalPart = digitalRepresentation.getFractionalPart();
         System.out.println(wholePart+' '+ fractionalPart);
-        if (wholePart.substring(0, 1).equals("-")) {
-            System.out.println(wholePart.substring(0, 1));
-            throw new IllegalArgumentException("Money should be positive!");
-        }
+
         return convert(wholePart, fractionalPart);
     }
 

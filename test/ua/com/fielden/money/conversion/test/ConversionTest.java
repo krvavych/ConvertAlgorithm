@@ -2,7 +2,6 @@ package ua.com.fielden.money.conversion.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.math.BigDecimal;
 
@@ -12,28 +11,6 @@ import ua.com.fielden.money.conversion.Converter;
 import ua.com.fielden.money.conversion.Money;
 
 public class ConversionTest {
-
-    @Test
-    public void it_should_be_impossible_to_convert_wrong_data() {
-        final Money money = new Money(new BigDecimal("199999999999999"));
-        try {
-            new Converter().convertNumbersToWriting(money);
-            fail();
-        } catch (final Exception e) {
-            assertEquals("Too big number of digits!", e.getMessage());
-        }
-    }
-
-    @Test
-    public void negative_number_should_not_be_permited() throws IllegalAccessException {
-        final Money money = new Money(new BigDecimal("-19.9"));
-        try {
-            new Converter().convertNumbersToWriting(money);
-            fail();
-        } catch (final IllegalArgumentException ex) {
-            assertEquals("Money should be positive!", ex.getMessage());
-        }
-    }
 
     @Test
     public void conversion_should_be_correct() throws IllegalAccessException {
@@ -49,12 +26,7 @@ public class ConversionTest {
         assertEquals("двадцять три копійки", new Converter().convertNumbersToWriting(new Money(new BigDecimal("0.23"))));
     }
 
-    @Test
-    public void the_same_numbers_should_be_equal() throws IllegalAccessException {
-        final Money money1 = new Money(new BigDecimal("19"));
-        final Money money2 = new Money(new BigDecimal("19.00"));
-        assertEquals(new Converter().convertNumbersToWriting(money1), new Converter().convertNumbersToWriting(money2));
-    }
+
 
     @Test
     public void nouns_should_be_used_correct () throws IllegalAccessException{
