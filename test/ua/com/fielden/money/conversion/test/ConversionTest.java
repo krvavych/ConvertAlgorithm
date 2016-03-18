@@ -13,13 +13,30 @@ import ua.com.fielden.money.conversion.Money;
 public class ConversionTest {
 
     @Test
-    public void fractional_part_should_be_created_correct(){
+    public void test_for_creation_fractional_part(){
+        assertEquals("", new Converter().convertNumbersToWriting(new Money(new BigDecimal("0.0"))));
         assertEquals("", new Converter().convertNumbersToWriting(new Money(new BigDecimal("0.00"))));
         assertEquals("одна копійка", new Converter().convertNumbersToWriting(new Money(new BigDecimal("0.01"))));
         assertEquals("шістдесят копійок", new Converter().convertNumbersToWriting(new Money(new BigDecimal("0.6"))));
         assertEquals("тридцять копійок", new Converter().convertNumbersToWriting(new Money(new BigDecimal("0.30"))));
         assertEquals("дванадцять копійок", new Converter().convertNumbersToWriting(new Money(new BigDecimal("0.12"))));
         assertEquals("сімдесят чотири копійки", new Converter().convertNumbersToWriting(new Money(new BigDecimal("0.74"))));
+    }
+
+    @Test
+    public void test_for_creation_digits(){
+        assertEquals("", new Converter().convertNumbersToWriting(new Money(new BigDecimal("0"))));
+        assertEquals("одна гривня", new Converter().convertNumbersToWriting(new Money(new BigDecimal("1.00"))));
+        assertEquals("три гривні", new Converter().convertNumbersToWriting(new Money(new BigDecimal("3"))));
+        assertEquals("вісім гривень", new Converter().convertNumbersToWriting(new Money(new BigDecimal("8"))));
+    }
+
+    @Test
+    public void test_for_creation_dozens(){
+        assertEquals("десять гривень", new Converter().convertNumbersToWriting(new Money(new BigDecimal("10.00"))));
+        assertEquals("тринадцять гривень", new Converter().convertNumbersToWriting(new Money(new BigDecimal("13"))));
+        assertEquals("двадцять чотири гривні", new Converter().convertNumbersToWriting(new Money(new BigDecimal("24"))));
+        assertEquals("дев’яносто гривень", new Converter().convertNumbersToWriting(new Money(new BigDecimal("90"))));
     }
 
     @Test
