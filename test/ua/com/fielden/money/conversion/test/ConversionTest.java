@@ -13,7 +13,7 @@ import ua.com.fielden.money.conversion.Money;
 public class ConversionTest {
 
     @Test
-    public void test_for_creation_fractional_part(){
+    public void test_for_creation_fractional_part() {
         assertEquals("", new Converter().convertNumbersToWriting(new Money(new BigDecimal("0.0"))));
         assertEquals("", new Converter().convertNumbersToWriting(new Money(new BigDecimal("0.00"))));
         assertEquals("одна копійка", new Converter().convertNumbersToWriting(new Money(new BigDecimal("0.01"))));
@@ -24,7 +24,7 @@ public class ConversionTest {
     }
 
     @Test
-    public void test_for_creation_digits(){
+    public void test_for_creation_digits() {
         assertEquals("", new Converter().convertNumbersToWriting(new Money(new BigDecimal("0"))));
         assertEquals("одна гривня", new Converter().convertNumbersToWriting(new Money(new BigDecimal("1.00"))));
         assertEquals("три гривні", new Converter().convertNumbersToWriting(new Money(new BigDecimal("3"))));
@@ -32,7 +32,7 @@ public class ConversionTest {
     }
 
     @Test
-    public void test_for_creation_dozens(){
+    public void test_for_creation_dozens() {
         assertEquals("десять гривень", new Converter().convertNumbersToWriting(new Money(new BigDecimal("10.00"))));
         assertEquals("тринадцять гривень", new Converter().convertNumbersToWriting(new Money(new BigDecimal("13"))));
         assertEquals("двадцять чотири гривні", new Converter().convertNumbersToWriting(new Money(new BigDecimal("24"))));
@@ -40,22 +40,23 @@ public class ConversionTest {
     }
 
     @Test
-    public void test_for_creation_hundreds(){
+    public void test_for_creation_hundreds() {
         assertEquals("сто гривень", new Converter().convertNumbersToWriting(new Money(new BigDecimal("100"))));
         assertEquals("п’ятсот чотири гривні", new Converter().convertNumbersToWriting(new Money(new BigDecimal("504.00"))));
         assertEquals("триста тридцять дев’ять гривень", new Converter().convertNumbersToWriting(new Money(new BigDecimal("339"))));
     }
 
     @Test
-    public void test_for_creation_thousands(){
+    public void test_for_creation_thousands() {
         assertEquals("одна тисяча гривень", new Converter().convertNumbersToWriting(new Money(new BigDecimal("1000"))));
         assertEquals("двадцять тисяч гривень", new Converter().convertNumbersToWriting(new Money(new BigDecimal("20000"))));
         assertEquals("дванадцять тисяч гривень", new Converter().convertNumbersToWriting(new Money(new BigDecimal("12000.00"))));
         assertEquals("двісті три тисячі гривень", new Converter().convertNumbersToWriting(new Money(new BigDecimal("203000"))));
         assertEquals("дев’ятсот тридцять одна тисяча гривень", new Converter().convertNumbersToWriting(new Money(new BigDecimal("931000"))));
     }
+
     @Test
-    public void nouns_should_be_used_correct () throws IllegalAccessException{
+    public void nouns_should_be_used_correct() {
         final Money money1 = new Money(new BigDecimal("191"));
         final Money money2 = new Money(new BigDecimal("102000"));
         final Money money3 = new Money(new BigDecimal("19.05"));

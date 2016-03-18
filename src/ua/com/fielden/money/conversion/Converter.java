@@ -11,13 +11,13 @@ public class Converter {
     private final String[] hryvnia = { "гривня ", "гривні ", "гривень " };
     private final String[] kop = { "копійка", "копійки", "копійок" };
 
-    public String convertNumbersToWriting(final Money digitalRepresentation) throws IllegalArgumentException {
+    public String convertNumbersToWriting(final Money digitalRepresentation){
         final String wholePart = digitalRepresentation.getWholePart();
         final String fractionalPart = digitalRepresentation.getFractionalPart();
-        return convert(wholePart, fractionalPart).replaceAll("\\s+$", "");
+        return convert(wholePart, fractionalPart).replaceAll("\\s+$", "");//some times white space in the end should be removed(when there is no fractional part)
     }
 
-    private String convert(final String wholePart, final String fractionalPart) throws IllegalArgumentException {
+    private String convert(final String wholePart, final String fractionalPart) {
 
         final String[] ending = choseCorrectEndsToNumeral(wholePart, fractionalPart);
         final String fractionalPartConverted = convertDozens(fractionalPart);
@@ -126,7 +126,7 @@ public class Converter {
         return "";
     }
 
-    public static void main(final String[] args) throws IllegalArgumentException {
+    public static void main(final String[] args){
         final Money newMoney = new Money(new BigDecimal(""));
         if (newMoney.getFractionalPart() != "") {
             System.out.println(newMoney.getWholePart() + "." + newMoney.getFractionalPart());
