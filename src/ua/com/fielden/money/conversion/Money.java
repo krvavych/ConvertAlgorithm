@@ -6,7 +6,7 @@ public class Money {
     private final String wholePart;
     private final String fractionalPart;
 
-    public Money(final BigDecimal numeric) throws IllegalAccessException {
+    public Money(final BigDecimal numeric) throws IllegalArgumentException {
         final String stringRepresentation = numeric.toString();
 
         if (stringRepresentation.contains(".")) {
@@ -20,14 +20,14 @@ public class Money {
         }
 
         if(wholePart.contains("-")){
-            throw new IllegalAccessException("Money should be positive!");
+            throw new IllegalArgumentException("Money should be positive!");
         }
 
         if (wholePart.length() > 6) {
-            throw new IllegalAccessException("Too big number of digits! (Maxinum value is 999999.99)");
+            throw new IllegalArgumentException("Too big number of digits! (Maxinum value is 999999.99)");
         }
         if (fractionalPart.length() > 2) {
-            throw new IllegalAccessException("Too long fractional part!");
+            throw new IllegalArgumentException("Too long fractional part!");
         }
     }
 
@@ -42,10 +42,10 @@ public class Money {
         return this.fractionalPart;
     }
 
-    public static void main(final String[] args) throws IllegalAccessException {
-        final Money newMoney = new Money(new BigDecimal("999"));
-        //System.out.println(newMoney.getWholePart());
-        //System.out.println(newMoney.getFractionalPart());
+    public static void main(final String[] args) throws IllegalArgumentException {
+        final Money newMoney = new Money(new BigDecimal("0.5"));
+        System.out.println(newMoney.getWholePart());
+        System.out.println(newMoney.getFractionalPart());
 
     }
 

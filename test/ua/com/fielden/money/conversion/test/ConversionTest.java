@@ -13,15 +13,25 @@ import ua.com.fielden.money.conversion.Money;
 public class ConversionTest {
 
     @Test
+    public void fractional_part_should_be_created_correct(){
+        assertEquals("", new Converter().convertNumbersToWriting(new Money(new BigDecimal("0.00"))));
+        assertEquals("одна копійка", new Converter().convertNumbersToWriting(new Money(new BigDecimal("0.01"))));
+        assertEquals("шістдесят копійок", new Converter().convertNumbersToWriting(new Money(new BigDecimal("0.6"))));
+        assertEquals("тридцять копійок", new Converter().convertNumbersToWriting(new Money(new BigDecimal("0.30"))));
+        assertEquals("дванадцять копійок", new Converter().convertNumbersToWriting(new Money(new BigDecimal("0.12"))));
+        assertEquals("сімдесят чотири копійки", new Converter().convertNumbersToWriting(new Money(new BigDecimal("0.74"))));
+    }
+
+    @Test
     public void conversion_should_be_correct() throws IllegalAccessException {
-        assertEquals("двадцять одна гривня п’ять копійок", new Converter().convertNumbersToWriting(new Money(new BigDecimal("21.057"))));
+        assertEquals("двадцять одна гривня п’ять копійок", new Converter().convertNumbersToWriting(new Money(new BigDecimal("21.05"))));
         assertEquals("двадцять дві тисячі сто гривень тридцять п’ять копійок", new Converter().convertNumbersToWriting(new Money(new BigDecimal("22100.35"))));
         assertEquals("сто гривень сімдесят три копійки", new Converter().convertNumbersToWriting(new Money(new BigDecimal("100.73"))));
         assertEquals("триста тисяч п’ятсот гривень дванадцять копійок", new Converter().convertNumbersToWriting(new Money(new BigDecimal("300500.12"))));
         assertEquals("дев’ятсот одна тисяча три гривні дев’яносто одна копійка", new Converter().convertNumbersToWriting(new Money(new BigDecimal("901003.91"))));
-        assertEquals("", new Converter().convertNumbersToWriting(new Money(new BigDecimal("0"))));
-        assertEquals("одна гривня ", new Converter().convertNumbersToWriting(new Money(new BigDecimal("1"))));
-        assertEquals("тридцять шість гривень ", new Converter().convertNumbersToWriting(new Money(new BigDecimal("36.00"))));
+        assertEquals("", new Converter().convertNumbersToWriting(new Money(new BigDecimal("0.00"))));
+        assertEquals("одна гривня", new Converter().convertNumbersToWriting(new Money(new BigDecimal("1.00"))));
+        assertEquals("тридцять шість гривень", new Converter().convertNumbersToWriting(new Money(new BigDecimal("36.00"))));
         assertEquals("одна тисяча сто дві гривні одна копійка", new Converter().convertNumbersToWriting(new Money(new BigDecimal("1102.01"))));
         assertEquals("двадцять три копійки", new Converter().convertNumbersToWriting(new Money(new BigDecimal("0.23"))));
     }
