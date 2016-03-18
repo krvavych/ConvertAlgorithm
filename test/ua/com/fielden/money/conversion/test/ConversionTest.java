@@ -40,21 +40,20 @@ public class ConversionTest {
     }
 
     @Test
-    public void conversion_should_be_correct() throws IllegalAccessException {
-        assertEquals("двадцять одна гривня п’ять копійок", new Converter().convertNumbersToWriting(new Money(new BigDecimal("21.05"))));
-        assertEquals("двадцять дві тисячі сто гривень тридцять п’ять копійок", new Converter().convertNumbersToWriting(new Money(new BigDecimal("22100.35"))));
-        assertEquals("сто гривень сімдесят три копійки", new Converter().convertNumbersToWriting(new Money(new BigDecimal("100.73"))));
-        assertEquals("триста тисяч п’ятсот гривень дванадцять копійок", new Converter().convertNumbersToWriting(new Money(new BigDecimal("300500.12"))));
-        assertEquals("дев’ятсот одна тисяча три гривні дев’яносто одна копійка", new Converter().convertNumbersToWriting(new Money(new BigDecimal("901003.91"))));
-        assertEquals("", new Converter().convertNumbersToWriting(new Money(new BigDecimal("0.00"))));
-        assertEquals("одна гривня", new Converter().convertNumbersToWriting(new Money(new BigDecimal("1.00"))));
-        assertEquals("тридцять шість гривень", new Converter().convertNumbersToWriting(new Money(new BigDecimal("36.00"))));
-        assertEquals("одна тисяча сто дві гривні одна копійка", new Converter().convertNumbersToWriting(new Money(new BigDecimal("1102.01"))));
-        assertEquals("двадцять три копійки", new Converter().convertNumbersToWriting(new Money(new BigDecimal("0.23"))));
+    public void test_for_creation_hundreds(){
+        assertEquals("сто гривень", new Converter().convertNumbersToWriting(new Money(new BigDecimal("100"))));
+        assertEquals("п’ятсот чотири гривні", new Converter().convertNumbersToWriting(new Money(new BigDecimal("504.00"))));
+        assertEquals("триста тридцять дев’ять гривень", new Converter().convertNumbersToWriting(new Money(new BigDecimal("339"))));
     }
 
-
-
+    @Test
+    public void test_for_creation_thousands(){
+        assertEquals("одна тисяча гривень", new Converter().convertNumbersToWriting(new Money(new BigDecimal("1000"))));
+        assertEquals("двадцять тисяч гривень", new Converter().convertNumbersToWriting(new Money(new BigDecimal("20000"))));
+        assertEquals("дванадцять тисяч гривень", new Converter().convertNumbersToWriting(new Money(new BigDecimal("12000.00"))));
+        assertEquals("двісті три тисячі гривень", new Converter().convertNumbersToWriting(new Money(new BigDecimal("203000"))));
+        assertEquals("дев’ятсот тридцять одна тисяча гривень", new Converter().convertNumbersToWriting(new Money(new BigDecimal("931000"))));
+    }
     @Test
     public void nouns_should_be_used_correct () throws IllegalAccessException{
         final Money money1 = new Money(new BigDecimal("191"));
@@ -65,21 +64,4 @@ public class ConversionTest {
         assertTrue(new Converter().convertNumbersToWriting(money3).contains("копійок"));
     }
 
-    @Test
-    public void  numerals_should_be_used_correct () throws IllegalAccessException{
-        final Money money1 = new Money(new BigDecimal("101"));
-        final Money money2 = new Money(new BigDecimal("11"));
-        final Money money3 = new Money(new BigDecimal("22"));
-        final Money money4 = new Money(new BigDecimal("12"));
-        final Money money5 = new Money(new BigDecimal("09"));
-        final Money money6 = new Money(new BigDecimal("90"));
-        final Money money7 = new Money(new BigDecimal("0010"));
-        assertTrue(new Converter().convertNumbersToWriting(money1).contains("одна"));
-        assertTrue(new Converter().convertNumbersToWriting(money2).contains("одинадцять"));
-        assertTrue(new Converter().convertNumbersToWriting(money3).contains("дві"));
-        assertTrue(new Converter().convertNumbersToWriting(money4).contains("дванадцять"));
-        assertTrue(new Converter().convertNumbersToWriting(money5).contains("дев’ять"));
-        assertTrue(new Converter().convertNumbersToWriting(money6).contains("дев’яносто"));
-        assertTrue(new Converter().convertNumbersToWriting(money7).contains("десять"));
-    }
 }
