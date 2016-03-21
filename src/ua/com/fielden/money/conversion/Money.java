@@ -42,11 +42,4 @@ public class Money {
         return this.fractionalPart;
     }
 
-    public static void main(final String[] args) throws IllegalArgumentException {
-        final Money newMoney = new Money(new BigDecimal("0.5"));
-        System.out.println(newMoney.getWholePart());
-        System.out.println(newMoney.getFractionalPart());
-
-    }
-
 }

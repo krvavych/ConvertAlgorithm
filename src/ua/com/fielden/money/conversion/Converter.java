@@ -1,7 +1,5 @@
 package ua.com.fielden.money.conversion;
 
-import java.math.BigDecimal;
-
 public class Converter {
 
     private final String[] thousend = { "тисяча ", "тисячі ", "тисяч " };
@@ -11,7 +9,7 @@ public class Converter {
     public String convertNumbersToWriting(final Money digitalRepresentation) {
         final String wholePart = digitalRepresentation.getWholePart();
         final String fractionalPart = digitalRepresentation.getFractionalPart();
-        return convert(wholePart, fractionalPart).replaceAll("\\s+$", "");//some times white space in the end should be removed(when there is no fractional part)
+        return convert(wholePart, fractionalPart).replaceAll("\\s+$", "");//sometimes white space in the end should be removed(when there is no fractional part)
     }
 
     private String convert(final String wholePart, final String fractionalPart) {
@@ -31,13 +29,8 @@ public class Converter {
         final String firstThreeDigits = Integer.toString(integerRepresentation / 1000);
         final String secondThreeDigits = Integer.toString(integerRepresentation % 1000);
 
-        if (!firstThreeDigits.equals("0")) {
-            return converterOfHundreds.convertDigits(firstThreeDigits) + ending[0] + converterOfHundreds.convertDigits(secondThreeDigits) + ending[1] + fractionalPartConverted
-                    + ending[2];
-        } else {
-            return converterOfHundreds.convertDigits(secondThreeDigits) + ending[1] + fractionalPartConverted + ending[2];
-        }
-
+        return converterOfHundreds.convertDigits(firstThreeDigits) + ending[0] + converterOfHundreds.convertDigits(secondThreeDigits) + ending[1] + fractionalPartConverted
+                + ending[2];
     }
 
     private String[] choseCorrectEndsToNumeral(final String wholePart, final String fractionalPart) {
@@ -73,18 +66,6 @@ public class Converter {
 
     private String chooseWordVariant(final String digit, final String[] array) {
         return (((digit.equals("1")) ? array[0] : ((digit.equals("2")) || (digit.equals("3")) || (digit.equals("4")) ? array[1] : array[2])));
-    }
-
-    public static void main(final String[] args) {
-        final Money newMoney = new Money(new BigDecimal("2034.98"));
-        if (newMoney.getFractionalPart() != "") {
-            System.out.println(newMoney.getWholePart() + "." + newMoney.getFractionalPart());
-        } else {
-            System.out.println(newMoney.getWholePart());
-        }
-        System.out.println();
-
-        System.out.println(new Converter().convertNumbersToWriting(newMoney));
     }
 
 }
