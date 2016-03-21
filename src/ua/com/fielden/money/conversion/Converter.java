@@ -3,24 +3,22 @@ package ua.com.fielden.money.conversion;
 import java.math.BigDecimal;
 
 public class Converter {
-    private final String[] digits = { "одна", "дві", "три", "чотири", "п’ять", "шість", "сім", "вісім", "дев’ять" };
-    private final String[] firstDozen = { "одинадцять", "дванадцять", "тринадцять", "чотирнадцять", "п’ятнадцять", "шістнадцять", "сімнадцять", "вісімнадцять", "дев’ятнадцять" };
-    private final String[] dozens = { "десять", "двадцять", "тридцять", "сорок", "п’ятдесят", "шістдесят", "сімдесят", "вісімдесят", "дев’яносто" };
-    private final String[] hundreds = { "сто", "двісті", "триста", "чотириста", "п’ятсот", "шістсот", "сімсот", "вісімсот", "дев’ятсот" };
+
     private final String[] thousend = { "тисяча ", "тисячі ", "тисяч " };
     private final String[] hryvnia = { "гривня ", "гривні ", "гривень " };
     private final String[] kop = { "копійка", "копійки", "копійок" };
 
-    public String convertNumbersToWriting(final Money digitalRepresentation){
+    public String convertNumbersToWriting(final Money digitalRepresentation) {
         final String wholePart = digitalRepresentation.getWholePart();
         final String fractionalPart = digitalRepresentation.getFractionalPart();
         return convert(wholePart, fractionalPart).replaceAll("\\s+$", "");//some times white space in the end should be removed(when there is no fractional part)
     }
 
     private String convert(final String wholePart, final String fractionalPart) {
+        final ConverterOfHundreds converterOfHundreds = new ConverterOfHundreds();
 
         final String[] ending = choseCorrectEndsToNumeral(wholePart, fractionalPart);
-        final String fractionalPartConverted = convertDozens(fractionalPart);
+        final String fractionalPartConverted = converterOfHundreds.convertDigits(fractionalPart);
 
         if (wholePart == "0" && fractionalPart == "00") {
             return "";
@@ -28,19 +26,16 @@ public class Converter {
             if (wholePart == "0") {
                 return fractionalPartConverted + ending[2];
             }
-            return convertDigits(wholePart, digits) + ending[1] + fractionalPartConverted + ending[2];
-        } else if (wholePart.length() == 2) {
-            return convertDozens(wholePart) + ending[1] + fractionalPartConverted + ending[2];
-        } else if (wholePart.length() == 3) {
-            return convertHundreds(wholePart) + ending[1] + fractionalPartConverted + ending[2];
-        } else if (wholePart.length() == 4) {
-            return convertDigits(wholePart.substring(0, 1), digits) + ending[0] + convertHundreds(wholePart.substring(1, 4)) + ending[1] + fractionalPartConverted
+        }
+        final int integerRepresentation = Integer.parseInt(wholePart);
+        final String firstThreeDigits = Integer.toString(integerRepresentation / 1000);
+        final String secondThreeDigits = Integer.toString(integerRepresentation % 1000);
+
+        if (!firstThreeDigits.equals("0")) {
+            return converterOfHundreds.convertDigits(firstThreeDigits) + ending[0] + converterOfHundreds.convertDigits(secondThreeDigits) + ending[1] + fractionalPartConverted
                     + ending[2];
-        } else if (wholePart.length() == 5) {
-            return convertDozens(wholePart.substring(0, 2)) + ending[0] + convertHundreds(wholePart.substring(2, 5)) + ending[1] + fractionalPartConverted + ending[2];
         } else {
-            return convertHundreds(wholePart.substring(0, 3)) + ending[0] + convertHundreds(wholePart.substring(3, 6)) + ending[1] + fractionalPartConverted
-                    + ending[2];
+            return converterOfHundreds.convertDigits(secondThreeDigits) + ending[1] + fractionalPartConverted + ending[2];
         }
 
     }
@@ -80,59 +75,15 @@ public class Converter {
         return (((digit.equals("1")) ? array[0] : ((digit.equals("2")) || (digit.equals("3")) || (digit.equals("4")) ? array[1] : array[2])));
     }
 
-    private String convertDigits(final String numeric, final String[] array) {
-        for (int i = 0; i < array.length; i++) {
-            if (numeric.hashCode() == ((i + 1) + "").hashCode()) {
-                return array[i] + " ";
-            }
-        }
-        return "";
-    }
-
-    private String convertDozens(final String numeric) {
-        final String firstDigit = numeric.substring(0, 1);
-        final String secondDigit = numeric.substring(1);
-        if ((firstDigit.equals("1")) && !(secondDigit.equals("0"))) {
-            return convertDigits(secondDigit, firstDozen);
-        }
-        for (int i = 0; i < dozens.length; i++) {
-            if ((firstDigit.equals("0"))) {
-                return convertDigits(secondDigit, digits);
-            } else if (((firstDigit.equals((i + 1) + ""))) && ((secondDigit.equals("0")))) {
-                return dozens[i] + " ";
-            } else if (((firstDigit.equals(((i + 1) + "")))) && (!(secondDigit.equals("0")))) {
-                return dozens[i] + " " + convertDigits(secondDigit, digits);
-            }
-        }
-        return "";
-    }
-
-    private String convertHundreds(final String numeric) {
-        final String firstDigit = numeric.substring(0, 1);
-        final String secondDigit = numeric.substring(1, 2);
-        final String thirdDigit = numeric.substring(2);
-
-        for (int i = 0; i < hundreds.length; i++) {
-            if (firstDigit.equals("0")) {
-                return convertDozens(secondDigit + thirdDigit);
-            } else if (firstDigit.equals(((i + 1) + "")) && (secondDigit.equals("0")) && (thirdDigit.equals("0"))) {
-                return hundreds[i] + " ";
-            } else if ((firstDigit.equals(((i + 1) + ""))) && (secondDigit.equals("0")) && !(thirdDigit.equals("0"))) {
-                return hundreds[i] + " " + convertDigits(thirdDigit, digits);
-            } else if ((firstDigit.equals(((i + 1) + ""))) && !((secondDigit.equals("0")))) {
-                return hundreds[i] + " " + convertDozens(secondDigit + thirdDigit);
-            }
-        }
-        return "";
-    }
-
-    public static void main(final String[] args){
-        final Money newMoney = new Money(new BigDecimal(""));
+    public static void main(final String[] args) {
+        final Money newMoney = new Money(new BigDecimal("2034.98"));
         if (newMoney.getFractionalPart() != "") {
             System.out.println(newMoney.getWholePart() + "." + newMoney.getFractionalPart());
         } else {
             System.out.println(newMoney.getWholePart());
         }
+        System.out.println();
+
         System.out.println(new Converter().convertNumbersToWriting(newMoney));
     }
 
