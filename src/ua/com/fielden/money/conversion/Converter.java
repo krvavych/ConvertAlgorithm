@@ -20,11 +20,8 @@ public class Converter {
 
         if (wholePart == "0" && fractionalPart == "00") {
             return "";
-        } else if (wholePart.length() == 1) {
-            if (wholePart == "0") {
-                return fractionalPartConverted + ending[2];
-            }
         }
+
         final int integerRepresentation = Integer.parseInt(wholePart);
         final String firstThreeDigits = Integer.toString(integerRepresentation / 1000);
         final String secondThreeDigits = Integer.toString(integerRepresentation % 1000);
