@@ -19,7 +19,7 @@ public class ConverterOfHundreds {
 
     private String convertDigits(final String numeric, final String[] array) {
         for (int i = 0; i < array.length; i++) {
-            if (numeric.hashCode() == ((i + 1) + "").hashCode()) {
+            if (numeric.equals((i + 1) + "")) {
                 return array[i] + " ";
             }
         }
@@ -29,15 +29,15 @@ public class ConverterOfHundreds {
     private String convertTens(final String numeric) {
         final String firstDigit = numeric.substring(0, 1);
         final String secondDigit = numeric.substring(1);
-        if ((firstDigit.equals("1")) && !(secondDigit.equals("0"))) {
+        if (firstDigit.equals("1") && !secondDigit.equals("0")) {
             return convertDigits(secondDigit, firstTen);
         }
         for (int i = 0; i < tens.length; i++) {
-            if ((firstDigit.equals("0"))) {
+            if (firstDigit.equals("0")) {
                 return convertDigits(secondDigit, ones);
-            } else if (((firstDigit.equals((i + 1) + ""))) && ((secondDigit.equals("0")))) {
+            } else if (firstDigit.equals((i + 1) + "") && secondDigit.equals("0")) {
                 return tens[i] + " ";
-            } else if (((firstDigit.equals(((i + 1) + "")))) && (!(secondDigit.equals("0")))) {
+            } else if (firstDigit.equals((i + 1) + "") && !secondDigit.equals("0")) {
                 return tens[i] + " " + convertDigits(secondDigit, ones);
             }
         }
@@ -53,11 +53,11 @@ public class ConverterOfHundreds {
         for (int i = 0; i < hundreds.length; i++) {
             if (firstDigit.equals("0")) {
                 return convertTens(secondDigit + thirdDigit);
-            } else if (firstDigit.equals(((i + 1) + "")) && (secondDigit.equals("0")) && (thirdDigit.equals("0"))) {
+            } else if (firstDigit.equals((i + 1) + "") && secondDigit.equals("0") && thirdDigit.equals("0")) {
                 return hundreds[i] + " ";
-            } else if ((firstDigit.equals(((i + 1) + ""))) && (secondDigit.equals("0")) && !(thirdDigit.equals("0"))) {
+            } else if (firstDigit.equals((i + 1) + "") && secondDigit.equals("0") && !thirdDigit.equals("0")) {
                 return hundreds[i] + " " + convertDigits(thirdDigit, ones);
-            } else if ((firstDigit.equals(((i + 1) + ""))) && !((secondDigit.equals("0")))) {
+            } else if (firstDigit.equals((i + 1) + "") && !secondDigit.equals("0")) {
                 return hundreds[i] + " " + convertTens(secondDigit + thirdDigit);
             }
         }
