@@ -32,10 +32,10 @@ public class Converter {
 
     private String[] choseCorrectEndsToNumeral(final String wholePart, final String fractionalPart) {
         final String[] ending = new String[3];
-        ending[0] = (wholePart.length() > 3) ? (chooseVariantOfEnding(wholePart.substring(0, wholePart.length() - 3), thousend)) : "";
-        ending[1] = (wholePart.equals("0")) ? "" : ((wholePart.length() < 4) ? chooseVariantOfEnding(wholePart, hryvnia)
-                : (chooseVariantOfEnding(wholePart.substring((wholePart.length() - 3), wholePart.length()), hryvnia)));
-        ending[2] = (!(fractionalPart.equals("00")) && !(fractionalPart.equals(""))) ? chooseVariantOfEnding(fractionalPart, kop) : "";
+        ending[0] = wholePart.length() > 3 ? chooseVariantOfEnding(wholePart.substring(0, wholePart.length() - 3), thousend) : "";
+        ending[1] = wholePart.equals("0") ? "" : (wholePart.length() < 4 ? chooseVariantOfEnding(wholePart, hryvnia)
+                : chooseVariantOfEnding(wholePart.substring((wholePart.length() - 3), wholePart.length()), hryvnia));
+        ending[2] = !fractionalPart.equals("00") && !fractionalPart.equals("") ? chooseVariantOfEnding(fractionalPart, kop) : "";
         return ending;
     }
 
@@ -46,7 +46,7 @@ public class Converter {
             final String firstDigit = numeric.substring(0, 1);
             final String secondDigit = numeric.substring(1);
 
-            if ((firstDigit.equals("1")) || (!(firstDigit.equals("1")) && !(firstDigit.equals("0")) && (secondDigit.equals("0")))) {
+            if (firstDigit.equals("1") || (!firstDigit.equals("1") && !firstDigit.equals("0") && secondDigit.equals("0"))) {
                 return array[2];
             } else {
                 return chooseWordVariant(secondDigit, array);
@@ -62,7 +62,7 @@ public class Converter {
     }
 
     private String chooseWordVariant(final String digit, final String[] array) {
-        return (((digit.equals("1")) ? array[0] : ((digit.equals("2")) || (digit.equals("3")) || (digit.equals("4")) ? array[1] : array[2])));
+        return digit.equals("1") ? array[0] : (digit.equals("2") || digit.equals("3") || digit.equals("4") ? array[1] : array[2]);
     }
 
 }
